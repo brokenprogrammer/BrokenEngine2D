@@ -12,8 +12,10 @@ class testGame : public BrokenEngine2D
 		return true;
 	}
 
-	virtual bool onRender()
+	virtual bool onRender(Graphics g)
 	{
+		g.Draw(30.3, 50.6);
+		g.Fill(50, 40, 10, 10);
 		return true;
 	}
 };

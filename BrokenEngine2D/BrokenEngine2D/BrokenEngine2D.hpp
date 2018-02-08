@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <atomic>
+#include "Graphics.hpp"
 
 class BrokenEngine2D
 {
@@ -20,7 +21,7 @@ public:
 
 	virtual bool onCreate() = 0;
 	virtual bool onUpdate() = 0;
-	virtual bool onRender() = 0;
+	virtual bool onRender(Graphics g) = 0;
 
 private:
 	void gameLoop();
@@ -34,6 +35,8 @@ protected:
 	HANDLE m_hConsoleIn;
 
 	CHAR_INFO *m_bufScreen;
+
+	Graphics g;
 
 	std::atomic<bool> m_running;
 };
