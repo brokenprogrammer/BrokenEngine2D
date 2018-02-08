@@ -1,6 +1,6 @@
 #include "BrokenEngine2D.hpp"
 #include <thread>
-#include <iostream>
+#include <chrono>
 
 BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30)
 {
@@ -110,14 +110,22 @@ void BrokenEngine2D::gameLoop()
 		m_running = false;
 	}
 
+	auto t1 = std::chrono::system_clock::now();
+	auto t2 = std::chrono::system_clock::now();
+
 	while (m_running)
 	{
-		// Elapsed time.. TODO
+		// Retrieve elapsed time duration.
+		t2 = std::chrono::system_clock::now();
+		std::chrono::duration<float> deltaTime = t2 - t1;
+		t1 = t2;
+
+		float elapsedTime = deltaTime.count();
 
 		// Handle input.. TODO
 
 		// Handle updates
-		if (!onUpdate())
+		if (!onUpdate(elapsedTime))
 		{
 			m_running = false;
 		}

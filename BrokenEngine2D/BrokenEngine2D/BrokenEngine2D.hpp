@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <atomic>
 
+
 class BrokenEngine2D
 {
 public:
@@ -19,7 +20,7 @@ public:
 	void start();
 
 	virtual bool onCreate() = 0;
-	virtual bool onUpdate() = 0;
+	virtual bool onUpdate(float t_elapsedTime) = 0;
 	virtual bool onRender() = 0;
 
 private:

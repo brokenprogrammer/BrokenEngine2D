@@ -7,7 +7,7 @@ class testGame : public BrokenEngine2D
 		return true;
 	}
 
-	virtual bool onUpdate()
+	virtual bool onUpdate(float t_elapsedTime)
 	{
 		return true;
 	}
