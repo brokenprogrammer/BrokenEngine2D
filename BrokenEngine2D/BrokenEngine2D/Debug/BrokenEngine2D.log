@@ -1,0 +1,11 @@
+﻿  BrokenEngine2D.cpp
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(20): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(33): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(38): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(53): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(61): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(66): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(71): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(78): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+c:\users\oskar\documents\github\brokenengine2d\brokenengine2d\brokenengine2d\brokenengine2d.cpp(84): warning C4353: nonstandard extension used: constant 0 as function expression.  Use '__noop' function intrinsic instead
+  BrokenEngine2D.vcxproj -> C:\Users\Oskar\Documents\GitHub\BrokenEngine2D\BrokenEngine2D\Debug\BrokenEngine2D.lib

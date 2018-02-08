@@ -1,13 +1,16 @@
 #include "BrokenEngine2D.hpp"
+#include <thread>
 #include <iostream>
 
 BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30)
 {
 	this->m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	this->m_hConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 }
 
 BrokenEngine2D::~BrokenEngine2D()
 {
+	delete[] m_bufScreen;
 }
 
 int BrokenEngine2D::createWindow(int t_width, int t_height, int t_pixelWidth, int t_pixelHeight)
@@ -35,7 +38,7 @@ int BrokenEngine2D::createWindow(int t_width, int t_height, int t_pixelWidth, in
 		return ERROR("Invalid Buffer Size");
 	}
 
-	//TODO: SET FONT SIZE
+	//TODO: SET FONT SIZE, SET TO THE FONT I WANT
 	// Set the font size now that the screen buffer has been assigned to the console
 	CONSOLE_FONT_INFOEX cfi;
 	cfi.cbSize = sizeof(cfi);
@@ -44,10 +47,11 @@ int BrokenEngine2D::createWindow(int t_width, int t_height, int t_pixelWidth, in
 	cfi.dwFontSize.Y = t_pixelHeight;
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
-	//wcscpy_s(cfi.FaceName, L"Liberation Mono");
 	wcscpy_s(cfi.FaceName, L"Consolas");
 	if (!SetCurrentConsoleFontEx(m_hConsole, false, &cfi))
+	{
 		return ERROR(L"SetCurrentConsoleFontEx");
+	}
 
 	// Get screen buffer info & check if window size exceeds max etc.. TODO: BETTER DOCS
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -76,11 +80,55 @@ int BrokenEngine2D::createWindow(int t_width, int t_height, int t_pixelWidth, in
 
 	// Set flags to allow mouse input		
 	if (!SetConsoleMode(m_hConsoleIn, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT))
+	{
 		return ERROR(L"SetConsoleMode");
-
-	// Allocate memory for screen buffer
+	}
+  
+	// allocate memory for screen buffer
 	m_bufScreen = new CHAR_INFO[m_screenWidth*m_screenHeight];
 	memset(m_bufScreen, 0, sizeof(CHAR_INFO) * m_screenWidth * m_screenHeight);
 
 	return 0;
+}
+
+void BrokenEngine2D::start()
+{
+	m_running = true;
+
+	// Start game thread
+	std::thread t = std::thread(&BrokenEngine2D::gameLoop, this);
+
+	// Wait for thread to finish
+	t.join();
+}
+
+
+void BrokenEngine2D::gameLoop()
+{
+	if (!onCreate())
+	{
+		m_running = false;
+	}
+
+	while (m_running)
+	{
+		// Elapsed time.. TODO
+
+		// Handle input.. TODO
+
+		// Handle updates
+		if (!onUpdate())
+		{
+			m_running = false;
+		}
+
+		// Handle rendering
+		if (!onRender())
+		{
+			m_running = false;
+		}
+
+		// Render screen buffer..
+		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);
+	}
 }

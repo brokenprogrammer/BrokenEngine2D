@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <atomic>
 
 class BrokenEngine2D
 {
@@ -15,10 +16,14 @@ public:
 	~BrokenEngine2D();
 
 	int createWindow(int t_width, int t_height, int t_pixelWidth, int t_pixelHeight);
+	void start();
 
 	virtual bool onCreate() = 0;
 	virtual bool onUpdate() = 0;
 	virtual bool onRender() = 0;
+
+private:
+	void gameLoop();
 
 protected:
 	int m_screenWidth;
@@ -26,6 +31,11 @@ protected:
 	SMALL_RECT m_rectWindow;
 
 	HANDLE m_hConsole;
+	HANDLE m_hConsoleIn;
+
+	CHAR_INFO *m_bufScreen;
+
+	std::atomic<bool> m_running;
 };
 
 #endif
