@@ -2,6 +2,9 @@
 
 class testGame : public BrokenEngine2D
 {
+	int x = 0;
+	int y = 0;
+
 	virtual bool onCreate()
 	{
 		return true;
@@ -9,11 +12,22 @@ class testGame : public BrokenEngine2D
 
 	virtual bool onUpdate(float t_elapsedTime)
 	{
+		if (getInput().getKey(VK_LEFT).m_held)
+		{
+			x++;
+		}
+
+		if (getInput().getKey(VK_DOWN).m_held)
+		{
+			y++;
+		}
+
 		return true;
 	}
 
 	virtual bool onRender()
 	{
+		draw(x, y);
 		return true;
 	}
 };

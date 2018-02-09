@@ -21,19 +21,15 @@ public:
 
 	void poll();
 
-	inline KeyState& getKey(int t_key) { return m_keyboardKeys[t_key]; }
+	inline KeyState getKey(int t_key) { return m_keyboardKeys[t_key]; }
 
 	inline int getMouseX() { return m_mouseX; }
 	inline int getMouseY() { return m_mouseY; }
+
 	inline KeyState getMouseKey(int t_mouseKey) { return m_mouseKeys[t_mouseKey]; }
 
-	int x = 0;
-	int y = 0;
-	bool left = false;
-
-	KeyState m_keyboardKeys[256];
 private:
-	//KeyState m_keyboardKeys[256];
+	KeyState m_keyboardKeys[256];
 	short m_oldKeyboardState[256] = { 0 };
 	short m_newKeyboardState[256] = { 0 };
 

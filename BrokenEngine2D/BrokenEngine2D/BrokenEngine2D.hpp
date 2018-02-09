@@ -23,7 +23,7 @@ public:
 	virtual bool onUpdate(float t_elapsedTime) = 0;
 	virtual bool onRender() = 0;
 
-	void draw(int x, int y);
+	void draw(int x, int y); //TEMP FOR TESTING
 
 	inline Input getInput() { return m_input; }
 

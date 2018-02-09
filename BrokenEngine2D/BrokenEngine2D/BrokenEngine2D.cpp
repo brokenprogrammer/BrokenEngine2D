@@ -130,7 +130,7 @@ void BrokenEngine2D::gameLoop()
 
 		float elapsedTime = deltaTime.count();
 
-		// Handle input.. TODO
+		// Poll for input.
 		m_input.poll();
 
 		// Handle updates
@@ -144,13 +144,6 @@ void BrokenEngine2D::gameLoop()
 		{
 			m_running = false;
 		}
-
-		if (m_input.left == true)
-		{
-			m_input.y++;
-		}
-
-		draw(m_input.x, m_input.y);
 
 		// Render screen buffer..
 		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);

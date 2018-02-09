@@ -34,24 +34,13 @@ void Input::poll()
 			if (m_newKeyboardState[i] & 0x8000)
 			{
 				// If key is already held then pressed is false, otherwise true.
-				m_keyboardKeys->m_pressed = m_keyboardKeys[i].m_held ? false : true;
-				m_keyboardKeys->m_held = true;
-
-				if (i == VK_LEFT && m_keyboardKeys->m_held == true)
-				{
-					x++;
-					left = true;
-				}
-				else
-				{
-					left = false;
-				}
+				m_keyboardKeys[i].m_pressed = m_keyboardKeys[i].m_held ? false : true;
+				m_keyboardKeys[i].m_held = true;
 			}
 			else
 			{
 				m_keyboardKeys->m_released = true;
 				m_keyboardKeys->m_held = false;
-				left = false;
 			}
 		}
 
