@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 
-BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30)
+BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30), m_input()
 {
 	this->m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	this->m_hConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -102,6 +102,14 @@ void BrokenEngine2D::start()
 	t.join();
 }
 
+void BrokenEngine2D::draw(int x, int y)
+{
+	if (x >= 0 && x < m_screenWidth && y >= 0 && y < m_screenHeight)
+	{
+		m_bufScreen[y * m_screenWidth + x].Char.UnicodeChar = 0x2588;
+		m_bufScreen[y * m_screenWidth + x].Attributes = 0x000F;
+	}
+}
 
 void BrokenEngine2D::gameLoop()
 {
@@ -123,6 +131,7 @@ void BrokenEngine2D::gameLoop()
 		float elapsedTime = deltaTime.count();
 
 		// Handle input.. TODO
+		m_input.poll();
 
 		// Handle updates
 		if (!onUpdate(elapsedTime))
@@ -135,6 +144,13 @@ void BrokenEngine2D::gameLoop()
 		{
 			m_running = false;
 		}
+
+		if (m_input.left == true)
+		{
+			m_input.y++;
+		}
+
+		draw(m_input.x, m_input.y);
 
 		// Render screen buffer..
 		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);
