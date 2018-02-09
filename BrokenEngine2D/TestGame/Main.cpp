@@ -1,4 +1,5 @@
 #include "BrokenEngine2D.hpp"
+#include <string>
 
 class testGame : public BrokenEngine2D
 {
@@ -25,6 +26,7 @@ class testGame : public BrokenEngine2D
 		g.DrawLine(50, 20, 50, 10);
 		g.Draw(10, 48);
 		g.Draw(30, 48);
+		g.DrawString(40, 30, "Wow! BrokenEngine2D is such a cool program. I can make any game I want!");
 		return true;
 	}
 };

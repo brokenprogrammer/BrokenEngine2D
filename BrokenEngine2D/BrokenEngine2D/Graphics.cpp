@@ -72,6 +72,12 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2)
 
 void Graphics::DrawString(float x, float y, std::string str)
 {
+	int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
+	for (int i = 0; i < str.length(); i++) {
+		char c = str.at(i);
+		m_bufScreen[a + i].Char.UnicodeChar = c;
+		m_bufScreen[a + i].Attributes = 0x000F;
+	}
 }
 
 void Graphics::Fill(float x, float y, float width, float height)
