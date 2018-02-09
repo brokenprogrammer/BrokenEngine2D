@@ -15,9 +15,9 @@ class testGame : public BrokenEngine2D
 
 	virtual bool onRender(Graphics g)
 	{
-		g.Draw(18, 18);
-		g.Fill(50, 40, 10, 10);
-		g.DrawLine(20, 20, 30, 10);
+		g.Draw(18, 18, 0x0005);
+		g.Fill(50, 40, 10, 10, 0x0001);
+		g.DrawLine(20, 20, 30, 10, 0x0003);
 		g.DrawLine(22, 22, 30, 40);
 		g.DrawLine(10, 50, 30, 50);
 		g.DrawLine(30, 55, 10, 55);
@@ -26,7 +26,7 @@ class testGame : public BrokenEngine2D
 		g.DrawLine(50, 20, 50, 10);
 		g.Draw(10, 48);
 		g.Draw(30, 48);
-		g.DrawString(40, 30, "Wow! BrokenEngine2D is such a cool program. I can make any game I want!");
+		g.DrawString(40, 30, "Wow! BrokenEngine2D is such a cool program. I can make any game I want!", 0x0002);
 		return true;
 	}
 };

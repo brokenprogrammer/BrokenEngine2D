@@ -10,14 +10,14 @@ Graphics::~Graphics() {
 
 }
 
-void Graphics::Draw(float x, float y)
+void Graphics::Draw(float x, float y, int color)
 {
 	int i = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	m_bufScreen[i].Char.UnicodeChar = 0x2588;
-	m_bufScreen[i].Attributes = 0x000F;
+	m_bufScreen[i].Attributes = color;
 }
 
-void Graphics::DrawLine(float x1, float y1, float x2, float y2)
+void Graphics::DrawLine(float x1, float y1, float x2, float y2, int color)
 {
 	// Swap points if x1 is to the right of x2.
 	if (x1 > x2) {
@@ -64,29 +64,29 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2)
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 
 		m_bufScreen[a].Char.UnicodeChar = 0x2588;
-		m_bufScreen[a].Attributes = 0x000F;
+		m_bufScreen[a].Attributes = color;
 
 		length += increment;
 	}
 }
 
-void Graphics::DrawString(float x, float y, std::string str)
+void Graphics::DrawString(float x, float y, std::string str, int color)
 {
 	int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	for (int i = 0; i < str.length(); i++) {
 		char c = str.at(i);
 		m_bufScreen[a + i].Char.UnicodeChar = c;
-		m_bufScreen[a + i].Attributes = 0x000F;
+		m_bufScreen[a + i].Attributes = color;
 	}
 }
 
-void Graphics::Fill(float x, float y, float width, float height)
+void Graphics::Fill(float x, float y, float width, float height, int color)
 {
 	int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			m_bufScreen[a+j].Char.UnicodeChar = 0x2588;
-			m_bufScreen[a+j].Attributes = 0x000F;
+			m_bufScreen[a+j].Attributes = color;
 		}
 		a += m_screenWidth;
 	}
