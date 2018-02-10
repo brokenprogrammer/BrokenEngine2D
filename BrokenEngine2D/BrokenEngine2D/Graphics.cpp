@@ -10,10 +10,10 @@ Graphics::~Graphics() {
 
 }
 
-void Graphics::Draw(float x, float y, int color)
+void Graphics::Draw(float x, float y, int c, int color)
 {
 	int i = m_screenWidth * int(y + 0.5) + int(x + 0.5);
-	m_bufScreen[i].Char.UnicodeChar = 0x2588;
+	m_bufScreen[i].Char.UnicodeChar = c;
 	m_bufScreen[i].Attributes = color;
 }
 
@@ -52,13 +52,15 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, int color)
 		kx = 1 / (1 + k);
 		ky = k / (1 + k);
 	}
+	kx *= 1.00001;
+	ky *= 1.00001;
 
 	float totLength = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Total length of the line.
 	float length = 0;
 	float increment = std::sqrt(kx * kx + ky * ky); // Line growth after every iteration of drawing it.
 
 	// Draw loop.
-	for (int i = 0; length <= totLength; i++) {
+	for (int i = 0; length < totLength + 0.5; i++) {
 		float x = x1 + kx * i;
 		float y = y1 + ky * i;
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
@@ -92,8 +94,12 @@ void Graphics::Fill(float x, float y, float width, float height, int color)
 	}
 }
 
-void Graphics::Clear()
+void Graphics::Clear(int color)
 {
+	for (int i = 0; i < m_screenWidth * m_screenHeight; i++) {
+		m_bufScreen[i].Char.UnicodeChar = 0x2588;
+		m_bufScreen[i].Attributes = color;
+	}
 }
 
 void Graphics::SetBuffer(CHAR_INFO *m_bufScreen, int m_screenWidth, int m_screenHeight)
