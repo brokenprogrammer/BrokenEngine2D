@@ -2,10 +2,10 @@
 #include <thread>
 #include <chrono>
 
-BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30), m_input()
+BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30), 
+	m_hConsole(GetStdHandle(STD_OUTPUT_HANDLE)), m_hConsoleIn(GetStdHandle(STD_INPUT_HANDLE)), 
+	m_input(m_hConsoleIn)
 {
-	this->m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	this->m_hConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 }
 
 BrokenEngine2D::~BrokenEngine2D()
@@ -146,6 +146,9 @@ void BrokenEngine2D::gameLoop()
 		}
 
 		// Render screen buffer..
+		wchar_t s[256];
+		swprintf_s(s, 256, L"MOUSEX: %i MOUSEY: %i ", this->m_input.getMouseX(), this->m_input.getMouseY());
+		SetConsoleTitle(s);
 		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);
 	}
 }

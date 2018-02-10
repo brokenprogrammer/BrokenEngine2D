@@ -2,6 +2,8 @@
 #define INPUT_H
 #pragma once
 
+#include <Windows.h>
+
 struct KeyState
 {
 	bool m_pressed;
@@ -12,7 +14,7 @@ struct KeyState
 class Input
 {
 public:
-	Input();
+	Input(HANDLE t_hConsoleIn);
 	Input(const Input&) = default;
 
 	Input& operator =(const Input&) = default;
@@ -29,6 +31,8 @@ public:
 	inline KeyState getMouseKey(int t_mouseKey) { return m_mouseKeys[t_mouseKey]; }
 
 private:
+	HANDLE m_hConsoleIn;
+
 	KeyState m_keyboardKeys[256];
 	short m_oldKeyboardState[256] = { 0 };
 	short m_newKeyboardState[256] = { 0 };

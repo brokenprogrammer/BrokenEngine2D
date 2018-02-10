@@ -1,8 +1,7 @@
 #include "Input.hpp"
 #include <iostream>
-#include <Windows.h>
 
-Input::Input()
+Input::Input(HANDLE t_hConsoleIn) : m_hConsoleIn(t_hConsoleIn)
 {
 	std::memset(m_keyboardKeys, 0, 256*sizeof(KeyState));
 	std::memset(m_oldKeyboardState, 0, 256 * sizeof(short));
@@ -47,5 +46,30 @@ void Input::poll()
 		m_oldKeyboardState[i] = m_newKeyboardState[i];
 	}
 
-	// Poll input for mouse.. TODO:
+	// View windows events to retrieve mouse input
+	INPUT_RECORD inputBuffer[32];
+	DWORD numberEvents = 0;
+	GetNumberOfConsoleInputEvents(this->m_hConsoleIn, &numberEvents);
+
+	if (numberEvents > 0)
+	{
+		ReadConsoleInput(this->m_hConsoleIn, inputBuffer, numberEvents, &numberEvents);
+	}
+
+	// Handle retrieved windows events
+	for (DWORD i = 0; i < numberEvents; i++)
+	{
+		switch (inputBuffer[i].EventType)
+		{
+		case MOUSE_EVENT:
+			switch (inputBuffer[i].Event.MouseEvent.dwEventFlags)
+			{
+			case MOUSE_MOVED:
+				this->m_mouseX = inputBuffer[i].Event.MouseEvent.dwMousePosition.X;
+				this->m_mouseY = inputBuffer[i].Event.MouseEvent.dwMousePosition.Y;
+				break;
+			}
+			break;
+		}
+	}
 }
