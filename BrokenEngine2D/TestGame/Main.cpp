@@ -29,8 +29,8 @@ class testGame : public BrokenEngine2D
 		g.Draw(30, 48);
 		g.DrawString(40, 30, "Wow! BrokenEngine2D is such a cool program. I can make any game I want!", 0x0002);
 		*/
-		g.DrawLine(30, 60, 90, 30);
-		g.DrawLine(90, 30, 30, 30);
+		g.DrawLine(30, 60, 90, 30, 0x0101, 0x0002);
+		g.DrawLine(90, 30, 30, 30, 0x2588, 0x0005);
 		g.DrawLine(30, 30, 90, 60);
 		g.DrawLine(90, 60, 60, 10);
 		g.DrawLine(60, 10, 30, 60);
