@@ -102,15 +102,6 @@ void BrokenEngine2D::start()
 	t.join();
 }
 
-void BrokenEngine2D::draw(int x, int y)
-{
-	if (x >= 0 && x < m_screenWidth && y >= 0 && y < m_screenHeight)
-	{
-		m_bufScreen[y * m_screenWidth + x].Char.UnicodeChar = 0x2588;
-		m_bufScreen[y * m_screenWidth + x].Attributes = 0x000F;
-	}
-}
-
 void BrokenEngine2D::gameLoop()
 {
 	if (!onCreate())
@@ -134,7 +125,7 @@ void BrokenEngine2D::gameLoop()
 		m_input.poll();
 
 		// Handle updates
-		if (!onUpdate(elapsedTime))
+		if (!onUpdate(this->m_input, elapsedTime))
 		{
 			m_running = false;
 		}
@@ -147,7 +138,7 @@ void BrokenEngine2D::gameLoop()
 
 		// Render screen buffer..
 		wchar_t s[256];
-		swprintf_s(s, 256, L"MOUSEX: %i MOUSEY: %i ", this->m_input.getMouseX(), this->m_input.getMouseY());
+		swprintf_s(s, 256, L"BrokenEngine2D FPS: %3.2f MOUSEX: %i MOUSEY: %i ", (1.0f / elapsedTime), this->m_input.getMouseX(), this->m_input.getMouseY());
 		SetConsoleTitle(s);
 		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);
 	}

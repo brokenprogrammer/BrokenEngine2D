@@ -20,12 +20,8 @@ public:
 	void start();
 
 	virtual bool onCreate() = 0;
-	virtual bool onUpdate(float t_elapsedTime) = 0;
+	virtual bool onUpdate(Input input, float t_elapsedTime) = 0;
 	virtual bool onRender() = 0;
-
-	void draw(int x, int y); //TEMP FOR TESTING
-
-	inline Input getInput() { return m_input; }
 
 private:
 	void gameLoop();

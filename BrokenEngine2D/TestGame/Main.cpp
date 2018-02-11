@@ -10,14 +10,14 @@ class testGame : public BrokenEngine2D
 		return true;
 	}
 
-	virtual bool onUpdate(float t_elapsedTime)
+	virtual bool onUpdate(Input input, float t_elapsedTime)
 	{
-		if (getInput().getKey(VK_LEFT).m_held)
+		if (input.getKey(VK_LEFT).m_held)
 		{
 			x++;
 		}
 
-		if (getInput().getKey(VK_DOWN).m_held)
+		if (input.getKey(VK_DOWN).m_held)
 		{
 			y++;
 		}
@@ -27,7 +27,6 @@ class testGame : public BrokenEngine2D
 
 	virtual bool onRender()
 	{
-		draw(x, y);
 		return true;
 	}
 };
