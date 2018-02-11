@@ -10,14 +10,14 @@ Graphics::~Graphics() {
 
 }
 
-void Graphics::Draw(float x, float y, int c, int color)
+void Graphics::Draw(float x, float y, int c, short color)
 {
 	int i = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	m_bufScreen[i].Char.UnicodeChar = c;
 	m_bufScreen[i].Attributes = color;
 }
 
-void Graphics::DrawLine(float x1, float y1, float x2, float y2, int color)
+void Graphics::DrawLine(float x1, float y1, float x2, float y2, short color)
 {
 	// Swap points if x1 is to the right of x2.
 	if (x1 > x2) {
@@ -72,7 +72,7 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, int color)
 	}
 }
 
-void Graphics::DrawString(float x, float y, std::string str, int color)
+void Graphics::DrawString(float x, float y, std::string str, short color)
 {
 	int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	for (int i = 0; i < str.length(); i++) {
@@ -82,7 +82,7 @@ void Graphics::DrawString(float x, float y, std::string str, int color)
 	}
 }
 
-void Graphics::Fill(float x, float y, float width, float height, int color)
+void Graphics::Fill(float x, float y, float width, float height, short color)
 {
 	int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 	for (int i = 0; i < height; i++) {
@@ -94,7 +94,7 @@ void Graphics::Fill(float x, float y, float width, float height, int color)
 	}
 }
 
-void Graphics::Clear(int color)
+void Graphics::Clear(short color)
 {
 	for (int i = 0; i < m_screenWidth * m_screenHeight; i++) {
 		m_bufScreen[i].Char.UnicodeChar = 0x2588;

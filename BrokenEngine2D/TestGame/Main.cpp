@@ -15,6 +15,7 @@ class testGame : public BrokenEngine2D
 
 	virtual bool onRender(Graphics g)
 	{
+		g.Clear();
 		/*
 		g.Fill(50, 40, 10, 10, 0x0001);
 		g.DrawLine(20, 20, 30, 10, 0x0003);
