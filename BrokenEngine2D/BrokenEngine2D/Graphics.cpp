@@ -10,34 +10,37 @@ Graphics::~Graphics() {
 
 }
 
-void Graphics::Draw(int x, int y, wchar_t c, short color)
+void Graphics::Draw(int t_x, int t_y, wchar_t t_char, short t_color)
 {
-	int i = m_screenWidth * y + x;
-	m_bufScreen[i].Char.UnicodeChar = c;
-	m_bufScreen[i].Attributes = color;
+	if (t_x >= 0 && t_x < m_screenWidth && t_y >= 0 && t_y < m_screenHeight)
+	{
+		int i = m_screenWidth * t_y + t_x;
+		m_bufScreen[i].Char.UnicodeChar = t_char;
+		m_bufScreen[i].Attributes = t_color;
+	}
 }
 
-void Graphics::DrawLine(int x1, int y1, int x2, int y2, wchar_t c, short color)
+void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char, short t_color)
 {
 	// Swap points if x1 is to the right of x2.
-	if (x1 > x2) {
-		int tempx = x2;
-		x2 = x1;
-		x1 = tempx;
-		int tempy = y2;
-		y2 = y1;
-		y1 = tempy;
+	if (t_x1 > t_x2) {
+		int tempx = t_x2;
+		t_x2 = t_x1;
+		t_x1 = tempx;
+		int tempy = t_y2;
+		t_y2 = t_y1;
+		t_y1 = tempy;
 	}
 
 	float k; // coefficient value
-	if (x2 - x1 == 0) {
+	if (t_x2 - t_x1 == 0) {
 		k = 10000; // Instead of infinity.
-		if (y2 - y1 < 0) {
+		if (t_y2 - t_y1 < 0) {
 			k = k * -1;
 		}
 	}
 	else {
-		k = float(y2 - y1) / float(x2 - x1);
+		k = float(t_y2 - t_y1) / float(t_x2 - t_x1);
 	}
 	
 	float kx;
@@ -55,48 +58,48 @@ void Graphics::DrawLine(int x1, int y1, int x2, int y2, wchar_t c, short color)
 	kx *= 1.00001;
 	ky *= 1.00001;
 
-	float totLength = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Total length of the line.
+	float totLength = std::sqrt((t_x2 - t_x1) * (t_x2 - t_x1) + (t_y2 - t_y1) * (t_y2 - t_y1)); // Total length of the line.
 	float length = 0;
 	float increment = std::sqrt(kx * kx + ky * ky); // Line growth after every iteration of drawing it.
 
 	// Draw loop.
 	for (int i = 0; length < totLength + 0.5; i++) {
-		float x = x1 + kx * i;
-		float y = y1 + ky * i;
+		float x = t_x1 + kx * i;
+		float y = t_y1 + ky * i;
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
 
-		m_bufScreen[a].Char.UnicodeChar = c;
-		m_bufScreen[a].Attributes = color;
+		m_bufScreen[a].Char.UnicodeChar = t_char;
+		m_bufScreen[a].Attributes = t_color;
 
 		length += increment;
 	}
 }
 
-void Graphics::DrawString(int x, int y, std::string str, short color)
+void Graphics::DrawString(int t_x, int t_y, std::string t_string, short t_color)
 {
-	int a = m_screenWidth * y + x;
-	for (int i = 0; i < str.length(); i++) {
-		char c = str.at(i);
+	int a = m_screenWidth * t_y + t_x;
+	for (int i = 0; i < t_string.length(); i++) {
+		char c = t_string.at(i);
 		m_bufScreen[a + i].Char.UnicodeChar = c;
-		m_bufScreen[a + i].Attributes = color;
+		m_bufScreen[a + i].Attributes = t_color;
 	}
 }
 
-void Graphics::Fill(int x, int y, int width, int height, wchar_t c, short color)
+void Graphics::Fill(int t_x, int t_y, int t_width, int t_height, wchar_t t_char, short t_color)
 {
-	int a = m_screenWidth * y + x;
-	for (int i = 0; i < height; i++) {
-		for (int j = 0; j < width; j++) {
-			m_bufScreen[a+j].Char.UnicodeChar = c;
-			m_bufScreen[a+j].Attributes = color;
+	int a = m_screenWidth * t_y + t_x;
+	for (int i = 0; i < t_height; i++) {
+		for (int j = 0; j < t_width; j++) {
+			m_bufScreen[a+j].Char.UnicodeChar = t_char;
+			m_bufScreen[a+j].Attributes = t_color;
 		}
 		a += m_screenWidth;
 	}
 }
 
-void Graphics::Clear(short color)
+void Graphics::Clear(short t_color)
 {
-	Fill(0, 0, m_screenWidth, m_screenHeight, color);
+	Fill(0, 0, m_screenWidth, m_screenHeight, t_color);
 }
 
 void Graphics::SetBuffer(CHAR_INFO *m_bufScreen, int m_screenWidth, int m_screenHeight)
