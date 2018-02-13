@@ -1,11 +1,11 @@
 #include "BrokenEngine2D.hpp"
 #include <thread>
-#include <iostream>
+#include <chrono>
 
-BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30)
+BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30), 
+	m_hConsole(GetStdHandle(STD_OUTPUT_HANDLE)), m_hConsoleIn(GetStdHandle(STD_INPUT_HANDLE)), 
+	m_input(m_hConsoleIn)
 {
-	this->m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	this->m_hConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 }
 
 BrokenEngine2D::~BrokenEngine2D()
@@ -105,7 +105,6 @@ void BrokenEngine2D::start()
 	t.join();
 }
 
-
 void BrokenEngine2D::gameLoop()
 {
 	if (!onCreate())
@@ -113,14 +112,23 @@ void BrokenEngine2D::gameLoop()
 		m_running = false;
 	}
 
+	auto t1 = std::chrono::system_clock::now();
+	auto t2 = std::chrono::system_clock::now();
+
 	while (m_running)
 	{
-		// Elapsed time.. TODO
+		// Retrieve elapsed time duration.
+		t2 = std::chrono::system_clock::now();
+		std::chrono::duration<float> deltaTime = t2 - t1;
+		t1 = t2;
 
-		// Handle input.. TODO
+		float elapsedTime = deltaTime.count();
+
+		// Poll for input.
+		m_input.poll();
 
 		// Handle updates
-		if (!onUpdate())
+		if (!onUpdate(this->m_input, elapsedTime))
 		{
 			m_running = false;
 		}
@@ -132,6 +140,9 @@ void BrokenEngine2D::gameLoop()
 		}
 
 		// Render screen buffer..
+		wchar_t s[256];
+		swprintf_s(s, 256, L"BrokenEngine2D FPS: %3.2f MOUSEX: %i MOUSEY: %i ", (1.0f / elapsedTime), this->m_input.getMouseX(), this->m_input.getMouseY());
+		SetConsoleTitle(s);
 		WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_screenWidth, (short)m_screenHeight}, {0, 0}, &m_rectWindow);
 	}
 }

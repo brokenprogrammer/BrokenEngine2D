@@ -3,13 +3,26 @@
 
 class testGame : public BrokenEngine2D
 {
+	int x = 0;
+	int y = 0;
+
 	virtual bool onCreate()
 	{
 		return true;
 	}
 
-	virtual bool onUpdate()
+	virtual bool onUpdate(Input input, float t_elapsedTime)
 	{
+		if (input.getKey(VK_LEFT).m_held)
+		{
+			x++;
+		}
+
+		if (input.getKey(VK_DOWN).m_held)
+		{
+			y++;
+		}
+
 		return true;
 	}
 
