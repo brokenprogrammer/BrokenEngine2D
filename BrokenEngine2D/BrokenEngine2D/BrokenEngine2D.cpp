@@ -96,7 +96,7 @@ void BrokenEngine2D::start()
 	m_running = true;
 
 	// Set screen buffer for Graphics.
-	g.SetBuffer(m_bufScreen, m_screenWidth, m_screenHeight);
+	m_graphics.SetBuffer(m_bufScreen, m_screenWidth, m_screenHeight);
 
 	// Start game thread
 	std::thread t = std::thread(&BrokenEngine2D::gameLoop, this);
@@ -134,7 +134,7 @@ void BrokenEngine2D::gameLoop()
 		}
 
 		// Handle rendering
-		if (!onRender(g))
+		if (!onRender(m_graphics))
 		{
 			m_running = false;
 		}
