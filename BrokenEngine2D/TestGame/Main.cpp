@@ -39,14 +39,25 @@ protected:
 
 	virtual bool onUpdate(Input t_input, float t_elapsedTime)
 	{
-		if (t_input.getKey(VK_LEFT).m_held)	// Bugged, doesn't notice when key is released.
+
+		if (t_input.getKey(VK_RIGHT).m_held)
 		{
-			m_player.x += 1.0f * t_elapsedTime;
+			m_player.x += 8.0f * t_elapsedTime;
+		}
+
+		if (t_input.getKey(VK_LEFT).m_held)
+		{
+			m_player.x -= 8.0f * t_elapsedTime;
+		}
+
+		if (t_input.getKey(VK_UP).m_held)
+		{
+			m_player.y -= 8.0f * t_elapsedTime;
 		}
 
 		if (t_input.getKey(VK_DOWN).m_held)
 		{
-			m_player.y += 1.0f * t_elapsedTime;
+			m_player.y += 8.0f * t_elapsedTime;
 		}
 
 		//m_player.x += m_player.velX * t_elapsedTime;

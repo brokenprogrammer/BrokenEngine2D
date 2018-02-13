@@ -47,8 +47,8 @@ void Input::poll()
 			}
 			else
 			{
-				m_keyboardKeys->m_released = true;
-				m_keyboardKeys->m_held = false;
+				m_keyboardKeys[i].m_released = true;
+				m_keyboardKeys[i].m_held = false;
 			}
 		}
 
