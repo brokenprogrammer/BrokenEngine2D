@@ -20,14 +20,14 @@ public:
 	int createWindow(int t_width, int t_height, int t_pixelWidth, int t_pixelHeight);
 	void start();
 
-	virtual bool onCreate() = 0;
-	virtual bool onUpdate(Input input, float t_elapsedTime) = 0;
-	virtual bool onRender(Graphics g) = 0;
-
 private:
 	void gameLoop();
 
 protected:
+	virtual bool onCreate() = 0;
+	virtual bool onUpdate(Input t_input, float t_elapsedTime) = 0;
+	virtual bool onRender(Graphics t_graphics) = 0;
+
 	int m_screenWidth;
 	int m_screenHeight;
 	SMALL_RECT m_rectWindow;
@@ -38,7 +38,7 @@ protected:
 	CHAR_INFO *m_bufScreen;
 
 	Input m_input;
-	Graphics g;
+	Graphics m_graphics;
 
 	std::atomic<bool> m_running;
 };
