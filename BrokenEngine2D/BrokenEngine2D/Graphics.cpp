@@ -67,9 +67,7 @@ void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char, 
 		float x = t_x1 + kx * i;
 		float y = t_y1 + ky * i;
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
-
-		m_bufScreen[a].Char.UnicodeChar = t_char;
-		m_bufScreen[a].Attributes = t_color;
+		Draw(x, y, t_char, t_color);
 
 		length += increment;
 	}
@@ -85,13 +83,52 @@ void Graphics::DrawString(int t_x, int t_y, std::string t_string, short t_color)
 	}
 }
 
+void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
+	float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char, short t_color)
+{
+	std::vector<std::pair<float, float>> transformedModel;
+	int vertices = t_wireframeModel.size();
+	transformedModel.resize(vertices);
+
+	// Rotate, based on the rotation matrix
+	// x1 = x * cos 0 - y * sin 0
+	// y1 = x * sin 0 + y * cos 0
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = t_wireframeModel[i].first * cosf(t_angle) - t_wireframeModel[i].second * sinf(t_angle);
+		transformedModel[i].second = t_wireframeModel[i].first * sinf(t_angle) + t_wireframeModel[i].second * cosf(t_angle);
+	}
+
+	// Scale
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = transformedModel[i].first * t_scale;
+		transformedModel[i].second = transformedModel[i].second * t_scale;
+	}
+
+	// Translate position
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = transformedModel[i].first + t_x;
+		transformedModel[i].second = transformedModel[i].second + t_y;
+	}
+
+	// Draw
+	for (int i = 0; i < vertices + 1; i++)
+	{
+		int j = i + 1;
+		DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
+			transformedModel[j % vertices].first, transformedModel[j % vertices].second,
+			t_char, t_color);
+	}
+}
+
 void Graphics::Fill(int t_x, int t_y, int t_width, int t_height, wchar_t t_char, short t_color)
 {
 	int a = m_screenWidth * t_y + t_x;
 	for (int i = 0; i < t_height; i++) {
 		for (int j = 0; j < t_width; j++) {
-			m_bufScreen[a+j].Char.UnicodeChar = t_char;
-			m_bufScreen[a+j].Attributes = t_color;
+			Draw(j, i, t_char, t_color);
 		}
 		a += m_screenWidth;
 	}
