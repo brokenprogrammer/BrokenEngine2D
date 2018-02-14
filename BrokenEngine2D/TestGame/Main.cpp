@@ -120,7 +120,7 @@ protected:
 		{
 			for (int y = 0; y < m_player.size; y++)
 			{
-				t_graphics.Draw(m_player.x + x, m_player.y + y);
+				t_graphics.Draw(m_player.x + x, m_player.y + y, BEPIXEL_DARK_SHADE, BEBG_CYAN | BEFG_DARK_MAGENTA);
 			}
 		}
 
