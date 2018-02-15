@@ -83,6 +83,117 @@ namespace be
 		y /= t_other;
 		return *this;
 	}
+	
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator +=(const Vector2D<T>& t_rhs)
+	{
+		return this->add(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator +=(const T& t_rhs)
+	{
+		return this->add(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator -=(const Vector2D<T>& t_rhs)
+	{
+		return this->subtract(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator -=(const T& t_rhs)
+	{
+		return this->subtract(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator *=(const Vector2D<T>& t_rhs)
+	{
+		return this->multiply(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator *=(const T& t_rhs)
+	{
+		return this->multiply(t_rhs);
+	}
+	
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator /=(const Vector2D<T>& t_rhs)
+	{
+		return this->divide(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T>& Vector2D<T>::operator /=(const T& t_rhs)
+	{
+		return this->divide(t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator -(const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(-t_rhs.x, -t_rhs.y);
+		return v;
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator +(Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(t_lhs.x + t_rhs.x, t_lhs.y + t_rhs.y);
+		return v;
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator -(Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(t_lhs.x - t_rhs.x, t_lhs.y - t_rhs.y);
+		return v;
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator *(Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(t_lhs.x * t_rhs.x, t_lhs.y * t_rhs.y);
+		return v;
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator /(Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(t_lhs.x / t_rhs.x, t_lhs.y / t_rhs.y);
+		return v;
+	}
+
+	template<typename T>
+	inline bool operator ==(const Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		return (t_lhs.x == t_rhs.x && t_lhs.y == t_rhs.y);
+	}
+
+	template<typename T>
+	inline bool operator !=(const Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		return !operator==(t_lhs, t_rhs);
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator +(const Vector2D<T>& t_lhs, const T& t_rhs)
+	{
+		Vector2D<T> v(t_lhs.x, t_lhs.y);
+		v.add(t_rhs);
+		return v;
+	}
+
+	template<typename T>
+	inline Vector2D<T> operator +(const T& t_lhs, const Vector2D<T>& t_rhs)
+	{
+		Vector2D<T> v(t_rhs.x, t_rhs.y);
+		v.add(t_lhs);
+		return v;
+	}
 
 	template<typename T>
 	inline T Vector2D<T>::X() const
