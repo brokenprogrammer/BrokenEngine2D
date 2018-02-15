@@ -24,7 +24,7 @@ namespace be {
 		Vector2D<T>& multiply(const T& t_other);
 		Vector2D<T>& divide(const T& t_other);
 
-		Vector2D<T>& operator +=(const Vector2D<T>& t_rhs);		// TESTED UNTILL HERE
+		Vector2D<T>& operator +=(const Vector2D<T>& t_rhs);
 		Vector2D<T>& operator +=(const T& t_rhs);
 
 		Vector2D<T>& operator -=(const Vector2D<T>& t_rhs);
@@ -37,7 +37,7 @@ namespace be {
 		Vector2D<T>& operator /=(const T& t_rhs);
 
 		template<typename T>
-		Vector2D<T> operator -(const Vector2D<T>& t_rhs);
+		friend Vector2D<T> operator -(const Vector2D<T>& t_rhs);
 
 		template<typename T>
 		friend Vector2D<T> operator +(Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs);
@@ -55,25 +55,31 @@ namespace be {
 		friend Vector2D<T> operator +(Vector2D<T>& t_lhs, const T& t_rhs);
 
 		template<typename T>
-		friend Vector2D<T> operator +(T& t_lhs, const Vector2D<T>& t_rhs);
+		friend Vector2D<T> operator +(T t_lhs, const Vector2D<T>& t_rhs);
 		
 		template<typename T>
 		friend Vector2D<T> operator -(Vector2D<T>& t_lhs, const T& t_rhs);
 		
 		template<typename T>
-		friend Vector2D<T> operator -(T& t_lhs, const Vector2D<T>& t_rhs);
+		friend Vector2D<T> operator -(T t_lhs, const Vector2D<T>& t_rhs);
 		
 		template<typename T>
 		friend Vector2D<T> operator *(Vector2D<T>& t_lhs, const T& t_rhs);
 		
 		template<typename T>
-		friend Vector2D<T> operator *(T& t_lhs, const Vector2D<T>& t_rhs);
+		friend Vector2D<T> operator *(T t_lhs, const Vector2D<T>& t_rhs);
 		
 		template<typename T>
 		friend Vector2D<T> operator /(Vector2D<T>& t_lhs, const T& t_rhs);
 		
 		template<typename T>
-		friend Vector2D<T> operator /(T& t_lhs, const Vector2D<T>& t_rhs);
+		friend Vector2D<T> operator /(T t_lhs, const Vector2D<T>& t_rhs);// Implemented til here
+
+		template<typename T>
+		friend bool operator ==(const Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs);
+		
+		template<typename T>
+		friend bool operator !=(const Vector2D<T>& t_lhs, const Vector2D<T>& t_rhs);
 
 		T X() const;
 		T Y() const;
