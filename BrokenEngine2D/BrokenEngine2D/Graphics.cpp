@@ -1,6 +1,7 @@
 #include "Graphics.hpp"
 #include <math.h>
 #include <stdio.h>
+#include "Util.hpp"
 
 Graphics::Graphics()
 {
@@ -20,7 +21,15 @@ void Graphics::Draw(int t_x, int t_y, wchar_t t_char, short t_color)
 	}
 }
 
-void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char, short t_color)
+void Graphics::DrawWrapped(int t_x, int t_y, wchar_t t_char, short t_color)
+{
+	float x;
+	float y;
+	be::wrapScreenCoords(t_x, t_y, x, y, m_screenWidth, m_screenHeight);
+	Draw(x, y, t_char, t_color);
+}
+
+void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, bool t_wrap, wchar_t t_char, short t_color)
 {
 	// Swap points if x1 is to the right of x2.
 	if (t_x1 > t_x2) {
@@ -67,7 +76,15 @@ void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char, 
 		float x = t_x1 + kx * i;
 		float y = t_y1 + ky * i;
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
-		Draw(x, y, t_char, t_color);
+
+		if (t_wrap)
+		{
+			DrawWrapped(x, y, t_char, t_color);
+		}
+		else
+		{
+			Draw(x, y, t_char, t_color);
+		}
 
 		length += increment;
 	}
@@ -84,7 +101,7 @@ void Graphics::DrawString(int t_x, int t_y, std::string t_string, short t_color)
 }
 
 void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
-	float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char, short t_color)
+	float t_x, float t_y, float t_angle, float t_scale, bool t_wrap, wchar_t t_char, short t_color)
 {
 	std::vector<std::pair<float, float>> transformedModel;
 	int vertices = t_wireframeModel.size();
@@ -117,9 +134,18 @@ void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wiref
 	for (int i = 0; i < vertices + 1; i++)
 	{
 		int j = i + 1;
-		DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
-			transformedModel[j % vertices].first, transformedModel[j % vertices].second,
-			t_char, t_color);
+		if (t_wrap)
+		{
+			DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
+				transformedModel[j % vertices].first, transformedModel[j % vertices].second,
+				true, t_char, t_color);
+		}
+		else
+		{
+			DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
+				transformedModel[j % vertices].first, transformedModel[j % vertices].second,
+				t_char, t_color);
+		}
 	}
 }
 
