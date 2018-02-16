@@ -178,7 +178,7 @@ protected:
 			}
 		}*/
 
-		t_graphics.DrawWireframe(m_ballModel, m_gameObjects.at(0).t.position.x, m_gameObjects.at(0).t.position.y, m_gameObjects.at(0).t.rotation, 10.0f, true);
+		t_graphics.DrawWireframeWrapped(m_ballModel, m_gameObjects.at(0).t.position.x, m_gameObjects.at(0).t.position.y, m_gameObjects.at(0).t.rotation, 10.0f);
 
 		// Draw misiles
 		for (auto &misile : m_misiles)
@@ -187,7 +187,7 @@ protected:
 		}
 
 		// Draw player model
-		t_graphics.DrawWireframe(m_playerModel, m_player.t.position.x, m_player.t.position.y, m_player.t.rotation, 1.0f, true);
+		t_graphics.DrawWireframeWrapped(m_playerModel, m_player.t.position.x, m_player.t.position.y, m_player.t.rotation, 1.0f);
 
 		return true;
 	}
