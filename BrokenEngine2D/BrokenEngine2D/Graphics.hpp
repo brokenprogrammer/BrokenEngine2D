@@ -63,15 +63,21 @@ public:
 	void SetBuffer(CHAR_INFO *t_bufScreen, int t_screenWidth, int t_screenHeight);
 
 	void Draw(int t_x, int t_y, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE);
+	
+	//TODO: Remove
 	void DrawWrapped(int t_x, int t_y, wchar_t t_char = BEPIXEL_SOLID, short T_color = BEFG_WHITE);
 	
 	void DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE);
+	
+	//TODO: Remove
 	void DrawLineWrapped(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE);
 
 	void DrawString(int t_x, int t_y, std::string t_string, short t_color = BEFG_WHITE);
 	
 	void DrawWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel, 
 		float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE);
+	
+	//TODO: Remove
 	void DrawWireframeWrapped(const std::vector<std::pair<float, float>> &t_wireframeModel,
 		float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE);
 
@@ -80,9 +86,12 @@ public:
 	void Clear(short t_color = BEFG_BLACK);
 
 private:
-	//TODO: Private funcs to do the calc etc for DrawLine
+
+
 	std::vector<std::pair<float, float>> transformWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
 		float t_x, float t_y, float t_angle, float t_scale);
+	
+	//TODO: remove
 	void wrapScreenCoords(int t_inX, int t_inY, int &t_outX, int &t_outY);
 
 	CHAR_INFO *m_bufScreen;
