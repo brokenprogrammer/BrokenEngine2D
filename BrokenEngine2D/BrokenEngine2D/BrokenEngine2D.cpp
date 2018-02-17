@@ -8,6 +8,13 @@ BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30),
 {
 }
 
+BrokenEngine2D::BrokenEngine2D(Graphics* t_graphics) : m_screenWidth(80), m_screenHeight(30),
+	m_hConsole(GetStdHandle(STD_OUTPUT_HANDLE)), m_hConsoleIn(GetStdHandle(STD_INPUT_HANDLE)),
+	m_input(m_hConsoleIn)
+{
+	this->m_graphics = t_graphics;
+}
+
 BrokenEngine2D::~BrokenEngine2D()
 {
 	delete[] m_bufScreen;
@@ -96,7 +103,7 @@ void BrokenEngine2D::start()
 	m_running = true;
 
 	// Set screen buffer for Graphics.
-	m_graphics.SetBuffer(m_bufScreen, m_screenWidth, m_screenHeight);
+	m_graphics->SetBuffer(m_bufScreen, m_screenWidth, m_screenHeight);
 
 	// Start game thread
 	std::thread t = std::thread(&BrokenEngine2D::gameLoop, this);
@@ -134,7 +141,7 @@ void BrokenEngine2D::gameLoop()
 		}
 
 		// Handle rendering
-		if (!onRender(m_graphics))
+		if (!onRender(*m_graphics))
 		{
 			m_running = false;
 		}

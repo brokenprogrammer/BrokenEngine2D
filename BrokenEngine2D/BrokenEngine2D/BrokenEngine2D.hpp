@@ -11,6 +11,7 @@ class BrokenEngine2D
 {
 public:
 	BrokenEngine2D();
+	BrokenEngine2D(Graphics* t_graphics);
 	BrokenEngine2D(const BrokenEngine2D&) = default;
 
 	BrokenEngine2D& operator =(const BrokenEngine2D&) = default;
@@ -26,7 +27,7 @@ private:
 protected:
 	virtual bool onCreate() = 0;
 	virtual bool onUpdate(Input t_input, float t_elapsedTime) = 0;
-	virtual bool onRender(Graphics t_graphics) = 0;
+	virtual bool onRender(Graphics& t_graphics) = 0;
 
 	int m_screenWidth;
 	int m_screenHeight;
@@ -38,7 +39,7 @@ protected:
 	CHAR_INFO *m_bufScreen;
 
 	Input m_input;
-	Graphics m_graphics;
+	Graphics *m_graphics;
 
 	std::atomic<bool> m_running;
 };

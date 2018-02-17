@@ -5,42 +5,51 @@
 #include "Vector2D.hpp"
 #include "Transform.hpp"
 
+// Global function maybe not so good?? TODO:..
+void wrapScreenCoords(float t_inX, float t_inY, float &t_outX, float &t_outY, int t_screenWidth, int t_screenHeight)
+{
+	t_outX = t_inX;
+	t_outY = t_inY;
+
+	if (t_inX < 0)
+	{
+		t_outX = t_inX + (float)t_screenWidth;
+	}
+
+	if (t_inX >= (float)t_screenWidth)
+	{
+		t_outX = t_inX - (float)t_screenWidth;
+	}
+
+	if (t_inY < 0)
+	{
+		t_outY = t_inY + (float)t_screenHeight;
+	}
+
+	if (t_inY >= (float)t_screenHeight)
+	{
+		t_outY = t_inY - (float)t_screenHeight;
+	}
+}
+
+class testGameGraphics : public Graphics
+{
+public:
+	void Draw(int t_x, int t_y, wchar_t t_char = BEPIXEL_SOLID, short t_color = BEFG_WHITE)
+	{
+		float x;
+		float y;
+		wrapScreenCoords(t_x, t_y, x, y, m_screenWidth, m_screenHeight);
+		Graphics::Draw(x, y, t_char, BEFG_GREEN);
+	}
+};
+
 class testGame : public BrokenEngine2D
 {
-
 public:
-	testGame()
-	{
-
-	}
-
+	// To get access to constructors.
+	using BrokenEngine2D::BrokenEngine2D;
 private:
-	void wrapScreenCoords(float t_inX, float t_inY, float &t_outX, float &t_outY)
-	{
-		t_outX = t_inX;
-		t_outY = t_inY;
-
-		if (t_inX < 0)
-		{
-			t_outX = t_inX + (float)m_screenWidth;
-		}
-
-		if (t_inX >= (float)m_screenWidth)
-		{
-			t_outX = t_inX - (float)m_screenWidth;
-		}
-
-		if (t_inY < 0)
-		{
-			t_outY = t_inY + (float)m_screenHeight;
-		}
-
-		if (t_inY >= (float)m_screenHeight)
-		{
-			t_outY = t_inY - (float)m_screenHeight;
-		}
-	}
-
 	struct GameObject
 	{
 		Transform t;
@@ -140,7 +149,7 @@ protected:
 		// Update player based on velocity.
 		m_player.getPositionX() += m_player.velX * t_elapsedTime;
 		m_player.getPositionY() += m_player.velY * t_elapsedTime;
-		wrapScreenCoords(m_player.getPositionX(), m_player.getPositionY(), m_player.getPositionX(), m_player.getPositionY());
+		wrapScreenCoords(m_player.getPositionX(), m_player.getPositionY(), m_player.getPositionX(), m_player.getPositionY(), m_screenWidth, m_screenHeight);
 
 		// Update all game objects.
 		for (auto &obj : m_balls)
@@ -148,7 +157,7 @@ protected:
 			obj.getPositionX() += obj.velX * t_elapsedTime;
 			obj.getPositionY() += obj.velY * t_elapsedTime;
 
-			wrapScreenCoords(obj.getPositionX(), obj.getPositionY(), obj.getPositionX(), obj.getPositionY());
+			wrapScreenCoords(obj.getPositionX(), obj.getPositionY(), obj.getPositionX(), obj.getPositionY(), m_screenWidth, m_screenHeight);
 		}
 
 		// Update every misile.
@@ -157,7 +166,7 @@ protected:
 			misile.getPositionX() += misile.velX * t_elapsedTime;
 			misile.getPositionY() += misile.velY * t_elapsedTime;
 
-			wrapScreenCoords(misile.getPositionX(), misile.getPositionY(), misile.getPositionX(), misile.getPositionY());
+			wrapScreenCoords(misile.getPositionX(), misile.getPositionY(), misile.getPositionX(), misile.getPositionY(), m_screenWidth, m_screenHeight);
 		}
 
 		// Remove misiles that are off the screen.
@@ -176,14 +185,14 @@ protected:
 		return true;
 	}
 
-	virtual bool onRender(Graphics t_graphics)
+	virtual bool onRender(Graphics& t_graphics)
 	{
 		t_graphics.Clear();
 
 		// Draw balls 
 		for (auto &obj : m_balls)
 		{
-			t_graphics.DrawWireframeWrapped(m_ballModel, obj.getPositionX(), obj.getPositionY(), obj.getAngle(), 10.0f);
+			t_graphics.DrawWireframe(m_ballModel, obj.getPositionX(), obj.getPositionY(), obj.getAngle(), 10.0f);
 		}
 
 		// Draw misiles
@@ -193,7 +202,7 @@ protected:
 		}
 
 		// Draw player model
-		t_graphics.DrawWireframeWrapped(m_playerModel, m_player.getPositionX(), m_player.getPositionY(), m_player.getAngle(), 1.0f);
+		t_graphics.DrawWireframe(m_playerModel, m_player.getPositionX(), m_player.getPositionY(), m_player.getAngle(), 1.0f);
 
 		return true;
 	}
@@ -201,7 +210,8 @@ protected:
 
 int main()
 {
-	testGame game;
+	testGameGraphics* g = new testGameGraphics;
+	testGame game(g);
 	game.createWindow(160, 100, 8, 8);
 	game.start();
 
