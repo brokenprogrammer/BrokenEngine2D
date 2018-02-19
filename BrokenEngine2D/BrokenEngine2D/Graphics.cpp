@@ -67,6 +67,7 @@ void Graphics::DrawLine(int t_x1, int t_y1, int t_x2, int t_y2, wchar_t t_char, 
 		float x = t_x1 + kx * i;
 		float y = t_y1 + ky * i;
 		int a = m_screenWidth * int(y + 0.5) + int(x + 0.5);
+
 		Draw(x, y, t_char, t_color);
 
 		length += increment;
@@ -86,32 +87,9 @@ void Graphics::DrawString(int t_x, int t_y, std::string t_string, short t_color)
 void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
 	float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char, short t_color)
 {
-	std::vector<std::pair<float, float>> transformedModel;
-	int vertices = t_wireframeModel.size();
-	transformedModel.resize(vertices);
-
-	// Rotate, based on the rotation matrix
-	// x1 = x * cos 0 - y * sin 0
-	// y1 = x * sin 0 + y * cos 0
-	for (int i = 0; i < vertices; i++)
-	{
-		transformedModel[i].first = t_wireframeModel[i].first * cosf(t_angle) - t_wireframeModel[i].second * sinf(t_angle);
-		transformedModel[i].second = t_wireframeModel[i].first * sinf(t_angle) + t_wireframeModel[i].second * cosf(t_angle);
-	}
-
-	// Scale
-	for (int i = 0; i < vertices; i++)
-	{
-		transformedModel[i].first = transformedModel[i].first * t_scale;
-		transformedModel[i].second = transformedModel[i].second * t_scale;
-	}
-
-	// Translate position
-	for (int i = 0; i < vertices; i++)
-	{
-		transformedModel[i].first = transformedModel[i].first + t_x;
-		transformedModel[i].second = transformedModel[i].second + t_y;
-	}
+	std::vector<std::pair<float, float>> transformedModel = 
+		transformWireframe(t_wireframeModel, t_x, t_y, t_angle, t_scale);
+	int vertices = transformedModel.size();
 
 	// Draw
 	for (int i = 0; i < vertices + 1; i++)
@@ -144,4 +122,37 @@ void Graphics::SetBuffer(CHAR_INFO *m_bufScreen, int m_screenWidth, int m_screen
 	this->m_bufScreen = m_bufScreen;
 	this->m_screenWidth = m_screenWidth;
 	this->m_screenHeight = m_screenHeight;
+}
+
+std::vector<std::pair<float, float>> Graphics::transformWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
+	float t_x, float t_y, float t_angle, float t_scale)
+{
+	std::vector<std::pair<float, float>> transformedModel;
+	int vertices = t_wireframeModel.size();
+	transformedModel.resize(vertices);
+
+	// Rotate, based on the rotation matrix
+	// x1 = x * cos 0 - y * sin 0
+	// y1 = x * sin 0 + y * cos 0
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = t_wireframeModel[i].first * cosf(t_angle) - t_wireframeModel[i].second * sinf(t_angle);
+		transformedModel[i].second = t_wireframeModel[i].first * sinf(t_angle) + t_wireframeModel[i].second * cosf(t_angle);
+	}
+
+	// Scale
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = transformedModel[i].first * t_scale;
+		transformedModel[i].second = transformedModel[i].second * t_scale;
+	}
+
+	// Translate position
+	for (int i = 0; i < vertices; i++)
+	{
+		transformedModel[i].first = transformedModel[i].first + t_x;
+		transformedModel[i].second = transformedModel[i].second + t_y;
+	}
+
+	return transformedModel;
 }

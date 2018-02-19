@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-//#include "Vector2D.hpp"
-#include "Vector2D.cpp"	//TODO: Fix so its not needed to include .cpp
+#include "Vector2D.hpp"
+//#include "Vector2D.cpp"	//TODO: Fix so its not needed to include .cpp
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
