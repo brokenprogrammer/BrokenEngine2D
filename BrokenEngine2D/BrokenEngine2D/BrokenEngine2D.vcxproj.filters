@@ -24,7 +24,10 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2D.cpp">
+    <ClCompile Include="SimpleGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateBasedGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,10 +41,19 @@
     <ClInclude Include="Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2D.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2D.hpp">
+    <ClInclude Include="GameState.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleGame.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateBasedGame.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

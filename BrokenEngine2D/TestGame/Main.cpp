@@ -1,4 +1,4 @@
-#include "BrokenEngine2D.hpp"
+#include "SimpleGame.hpp"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -44,11 +44,11 @@ public:
 	}
 };
 
-class testGame : public BrokenEngine2D
+class testGame : public SimpleGame
 {
 public:
-	// To get access to constructors.
-	using BrokenEngine2D::BrokenEngine2D;
+	// Inherit constructors
+	using SimpleGame::SimpleGame;
 private:
 	struct GameObject
 	{

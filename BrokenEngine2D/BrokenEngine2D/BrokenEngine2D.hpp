@@ -22,13 +22,9 @@ public:
 	void start();
 
 private:
-	void gameLoop();
+	virtual void gameLoop() = 0;
 
 protected:
-	virtual bool onCreate() = 0;
-	virtual bool onUpdate(Input t_input, float t_elapsedTime) = 0;
-	virtual bool onRender(Graphics& t_graphics) = 0;
-
 	int m_screenWidth;
 	int m_screenHeight;
 	SMALL_RECT m_rectWindow;
