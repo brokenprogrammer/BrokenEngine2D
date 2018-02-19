@@ -215,5 +215,6 @@ int main()
 	game.createWindow(160, 100, 8, 8);
 	game.start();
 
+	delete g;
 	return 0;
 }

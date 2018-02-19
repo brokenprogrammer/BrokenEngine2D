@@ -6,6 +6,7 @@ BrokenEngine2D::BrokenEngine2D() : m_screenWidth(80), m_screenHeight(30),
 	m_hConsole(GetStdHandle(STD_OUTPUT_HANDLE)), m_hConsoleIn(GetStdHandle(STD_INPUT_HANDLE)), 
 	m_input(m_hConsoleIn)
 {
+	this->m_graphics = new Graphics;
 }
 
 BrokenEngine2D::BrokenEngine2D(Graphics* t_graphics) : m_screenWidth(80), m_screenHeight(30),
@@ -18,6 +19,7 @@ BrokenEngine2D::BrokenEngine2D(Graphics* t_graphics) : m_screenWidth(80), m_scre
 BrokenEngine2D::~BrokenEngine2D()
 {
 	delete[] m_bufScreen;
+	delete m_graphics;
 }
 
 int BrokenEngine2D::createWindow(int t_width, int t_height, int t_pixelWidth, int t_pixelHeight)
