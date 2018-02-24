@@ -1,6 +1,7 @@
 #include "Graphics.hpp"
 #include <math.h>
 #include <stdio.h>
+#include <algorithm>
 
 Graphics::Graphics()
 {
@@ -103,18 +104,24 @@ void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wiref
 
 void Graphics::Fill(int t_x, int t_y, int t_width, int t_height, wchar_t t_char, short t_color)
 {
-	int a = m_screenWidth * t_y + t_x;
-	for (int i = 0; i < t_height; i++) {
-		for (int j = 0; j < t_width; j++) {
-			Draw(j, i, t_char, t_color);
-		}
-		a += m_screenWidth;
+	// Construct one row of CHAR_INFO and memcpy it into its location row per row.
+	CHAR_INFO target = { t_char, t_color};
+	CHAR_INFO *row = new CHAR_INFO[t_width];
+	std::fill(row, row + t_width, target);
+
+	int a = this->m_screenWidth * t_y + t_x;
+	for (int h = 0; h < t_height; h++)
+	{
+		memcpy(this->m_bufScreen + a, row, t_width*sizeof(CHAR_INFO));
+		a += this->m_screenWidth;
 	}
+
+	delete[] row;
 }
 
 void Graphics::Clear(short t_color)
 {
-	Fill(0, 0, m_screenWidth, m_screenHeight, t_color);
+	Fill(0, 0, this->m_screenWidth, this->m_screenHeight, t_color);
 }
 
 void Graphics::SetBuffer(CHAR_INFO *m_bufScreen, int m_screenWidth, int m_screenHeight)
