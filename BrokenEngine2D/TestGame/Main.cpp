@@ -90,8 +90,8 @@ protected:
 		m_player.velX = 0.0f;
 		m_player.velY = 0.0f;
 		m_player.t.rotation = 0.0f;
-		m_player.t.scale.x = 0.0f;
-		m_player.t.scale.y = 0.0f;
+		m_player.t.scale.x = 3.0f;
+		m_player.t.scale.y = 3.0f;
 
 		// Initialize player model.
 		m_playerModel = 
@@ -202,7 +202,7 @@ protected:
 		}
 
 		// Draw player model
-		t_graphics.DrawWireframe(m_playerModel, m_player.getPositionX(), m_player.getPositionY(), m_player.getAngle(), 1.0f);
+		t_graphics.DrawWireframe(m_playerModel, m_player.t);
 
 		return true;
 	}

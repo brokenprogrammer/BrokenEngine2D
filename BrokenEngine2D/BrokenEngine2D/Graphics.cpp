@@ -89,11 +89,29 @@ void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wiref
 	float t_x, float t_y, float t_angle, float t_scale, wchar_t t_char, short t_color)
 {
 	std::vector<std::pair<float, float>> transformedModel = 
-		transformWireframe(t_wireframeModel, t_x, t_y, t_angle, t_scale);
+		transformWireframe(t_wireframeModel, t_x, t_y, t_angle, t_scale, t_scale);
 	int vertices = transformedModel.size();
 
 	// Draw
 	for (int i = 0; i < vertices + 1; i++)
+	{
+		int j = i + 1;
+		DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
+			transformedModel[j % vertices].first, transformedModel[j % vertices].second,
+			t_char, t_color);
+	}
+}
+
+void Graphics::DrawWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
+	const Transform &t_transform, wchar_t t_char, short t_color)
+{
+	std::vector<std::pair<float, float>> transformedModel =
+		transformWireframe(t_wireframeModel, t_transform.position.x, t_transform.position.y, 
+			t_transform.rotation, t_transform.scale.x, t_transform.scale.y);
+	int vertices = transformedModel.size();
+
+
+	for (int i = 0; i < vertices; i++)
 	{
 		int j = i + 1;
 		DrawLine(transformedModel[i % vertices].first, transformedModel[i % vertices].second,
@@ -132,7 +150,7 @@ void Graphics::SetBuffer(CHAR_INFO *m_bufScreen, int m_screenWidth, int m_screen
 }
 
 std::vector<std::pair<float, float>> Graphics::transformWireframe(const std::vector<std::pair<float, float>> &t_wireframeModel,
-	float t_x, float t_y, float t_angle, float t_scale)
+	float t_x, float t_y, float t_angle, float t_scaleX, float t_scaleY)
 {
 	std::vector<std::pair<float, float>> transformedModel;
 	int vertices = t_wireframeModel.size();
@@ -150,8 +168,8 @@ std::vector<std::pair<float, float>> Graphics::transformWireframe(const std::vec
 	// Scale
 	for (int i = 0; i < vertices; i++)
 	{
-		transformedModel[i].first = transformedModel[i].first * t_scale;
-		transformedModel[i].second = transformedModel[i].second * t_scale;
+		transformedModel[i].first = transformedModel[i].first * t_scaleX;
+		transformedModel[i].second = transformedModel[i].second * t_scaleY;
 	}
 
 	// Translate position
